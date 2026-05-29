@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1514,14 +1515,34 @@ function score() {
 
 function submitForm() {
   if(!validate(4)) return;
-  const s = score();
-  document.getElementById('form-wrap').style.display='none';
-  const rs = document.getElementById('result-screen');
+  var s = score();
+  var priority = s>=4 ? 'HIGH' : s>=2 ? 'MEDIUM' : 'LOW';
+  var submitted = new Date().toLocaleString('en-IN', {timeZone:'Asia/Kolkata'});
+  var sep = '--------------------';
+  var msg = 'NEW GENESIS APPLICATION' + '\n'
+    + sep + '\n'
+    + 'Name: ' + fd.name + '\n'
+    + 'Mobile: ' + fd.phone + '\n'
+    + 'Email: ' + fd.email + '\n'
+    + 'Age: ' + (fd.age || 'Not provided') + '\n'
+    + 'Occupation: ' + (fd.occ || 'Not provided') + '\n'
+    + 'Goal: ' + (fd.goal || 'Not provided') + '\n'
+    + 'Commitment: ' + (fd.com || 'Not provided') + '\n'
+    + 'Timeline: ' + (fd.time || 'Not provided') + '\n'
+    + sep + '\n'
+    + 'Priority: ' + priority + '\n'
+    + 'Score: ' + s + '/5' + '\n'
+    + 'Submitted: ' + submitted;
+
+  var waURL = 'https://wa.me/918108431282?text=' + encodeURIComponent(msg);
+  window.open(waURL, '_blank');
+
+  document.getElementById('form-wrap').style.display = 'none';
+  var rs = document.getElementById('result-screen');
   rs.classList.add('vis');
-  const id = s>=4?'r-high':s>=2?'r-medium':'r-low';
-  document.getElementById(id).classList.add('show');
-  rs.scrollIntoView({behavior:'smooth',block:'start'});
-  console.log('GENESIS LEAD:', {...fd, score:s, priority:s>=4?'HIGH':s>=2?'MEDIUM':'LOW', ts:new Date().toISOString()});
+  var rid = s>=4 ? 'r-high' : s>=2 ? 'r-medium' : 'r-low';
+  document.getElementById(rid).classList.add('show');
+  rs.scrollIntoView({behavior:'smooth', block:'start'});
 }
 </script>
 </body>
